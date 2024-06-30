@@ -7,9 +7,13 @@ import 'package:cars/pages/carlist_overview_page.dart';
 import 'package:cars/pages/dev_control_page.dart';
 import 'package:cars/pages/page_not_found.dart';
 import 'package:flutter/material.dart';
+import 'package:workmanager/workmanager.dart';
 
+@pragma(
+    'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  Workmanager().initialize(callbackDispatcher);
   schedulePeriodicTask();
   runApp(const MyApp());
 }

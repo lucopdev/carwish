@@ -2,7 +2,7 @@ import 'package:cars/common/my_colors.dart';
 import 'package:cars/database/database_config.dart';
 import 'package:cars/model/car.model.dart';
 import 'package:cars/model/car_user.model.dart';
-import 'package:cars/services/car_user_service.dart';
+import 'package:cars/services/car_user.service.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:cars/common/get_input_decoration.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +50,7 @@ class _PurchaseFormState extends State<PurchaseForm> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       print('Formulário válido');
-      CarUserService().insertUser(
+      CarUserService().insertCarUser(
         CarUser(
           name: _nameController.text,
           email: _emailController.text,

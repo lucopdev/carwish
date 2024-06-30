@@ -1,10 +1,16 @@
+import 'dart:convert';
+
 import 'package:cars/common/my_colors.dart';
+import 'package:cars/common/task_manager.dart';
 import 'package:cars/model/car_user.model.dart';
-import 'package:cars/services/car_user_service.dart';
+import 'package:cars/services/car_user.service.dart';
 import 'package:cars/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
 import 'package:cars/database/database_config.dart';
+import 'package:http/http.dart' as http;
 
+@pragma(
+    'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
 class DevControlPage extends StatefulWidget {
   const DevControlPage({super.key});
 
@@ -18,7 +24,7 @@ class _DevControlPageState extends State<DevControlPage> {
 
   void _showData() async {
     try {
-      final List<CarUser> data = await CarUserService().getUsers();
+      final List<CarUser> data = await CarUserService().getCarUsers();
       setState(() {
         users = data;
       });
@@ -27,7 +33,7 @@ class _DevControlPageState extends State<DevControlPage> {
     }
   }
 
-  void _deleteUser() {
+  void _deleteCarUser() {
     final idText = _idController.text.trim();
     if (idText.isEmpty) return;
 
@@ -37,7 +43,7 @@ class _DevControlPageState extends State<DevControlPage> {
       return;
     }
 
-    CarUserService().deleteUser(id).then((value) {
+    CarUserService().deleteCarUser(id).then((value) {
       if (value > 0) {
         _showData();
         _idController.clear();
@@ -54,6 +60,36 @@ class _DevControlPageState extends State<DevControlPage> {
     setState(() {
       users = [];
     });
+  }
+
+  Future<void> _postData() async {
+    const url = 'https://www.wswork.com.br/cars/leads/';
+
+    try {
+      final users = await CarUserService().getCarUsers();
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body:
+            jsonEncode({'users': users.map((user) => user.toJson()).toList()}),
+      );
+
+      if (response.statusCode == 200) {
+        print('POST request successful');
+      } else {
+        print('Failed to post data: ${response.statusCode}');
+        print('Response body: ${response.body}');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  void _runTask() {
+    scheduleOneOffTask();
   }
 
   @override
@@ -73,52 +109,43 @@ class _DevControlPageState extends State<DevControlPage> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyColors.drawerTheme,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
-                    ),
-                    minimumSize: const Size(200, 50),
-                  ),
-                  onPressed: _showData,
-                  child: Text(
-                    'Ver dados',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                ),
-                const SizedBox(height: 15),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: MyColors.drawerTheme,
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.drawerTheme,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            minimumSize: const Size(200, 50),
+                          ),
+                          onPressed: _showData,
+                          child: Text(
+                            'Show data',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
                         ),
-                        minimumSize: const Size(200, 50),
-                      ),
-                      onPressed: _deleteUser,
-                      child: Text(
-                        'Deletar usuário',
-                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
                     ),
-                    SizedBox(
-                      width: 80,
-                      child: TextField(
-                        controller: _idController,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          contentPadding: EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 12,
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.drawerTheme,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            minimumSize: const Size(200, 50),
                           ),
-                          hintText: 'ID',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius
-                                .zero, // Sem arredondamento nos cantos
+                          onPressed: _runTask,
+                          child: Text(
+                            'Run task',
+                            style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         ),
                       ),
@@ -126,19 +153,95 @@ class _DevControlPageState extends State<DevControlPage> {
                   ],
                 ),
                 const SizedBox(height: 15),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: MyColors.drawerTheme,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.zero,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.drawerTheme,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            minimumSize: const Size(150, 50),
+                          ),
+                          onPressed: _deleteCarUser,
+                          child: Text(
+                            'Delete user',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ),
+                      ),
                     ),
-                    minimumSize: const Size(200, 50),
-                  ),
-                  onPressed: _resetDatabase,
-                  child: Text(
-                    'Resetar Banco de Dados',
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: TextField(
+                          controller: _idController,
+                          keyboardType: TextInputType.number,
+                          decoration: const InputDecoration(
+                            contentPadding: EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 12,
+                            ),
+                            hintText: 'ID',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius
+                                  .zero, // Sem arredondamento nos cantos
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.drawerTheme,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            minimumSize: const Size(150, 50),
+                            maximumSize: const Size(double.infinity, 50),
+                          ),
+                          onPressed: _resetDatabase,
+                          child: Text(
+                            'Reset Data',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: MyColors.drawerTheme,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
+                            minimumSize: const Size(150, 50),
+                            maximumSize: const Size(double.infinity, 50),
+                          ),
+                          onPressed: _postData,
+                          child: Text(
+                            'Post Data',
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -180,7 +283,7 @@ class _DevControlPageState extends State<DevControlPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(user.phone),
-                                Text('Id do carro: ${user.carId.toString()}'),
+                                Text('Carro: ${user.carId.toString()}'),
                               ],
                             ),
                           ),
