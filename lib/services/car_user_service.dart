@@ -1,22 +1,23 @@
 import 'package:cars/database/database_config.dart';
-import 'package:cars/model/user.model.dart';
+import 'package:cars/model/car_user.model.dart';
 
-class UserService {
-  Future<void> insertUser(User user) async {
+class CarUserService {
+  Future<void> insertUser(CarUser user) async {
     final db = await DatabaseHelper().database;
-    await db.insert('users', user.toJson());
+    await db.insert('carUsers', user.toJson());
   }
 
-  Future<List<Map<String, dynamic>>> getUsers() async {
+  Future<List<CarUser>> getUsers() async {
     final db = await DatabaseHelper().database;
-    return await db.query('users');
+    final List<Map<String, dynamic>> maps = await db.query('carUsers');
+    return List.generate(maps.length, (index) => CarUser.fromMap(maps[index]));
   }
 
   Future<int> deleteUser(int id) async {
     final db = await DatabaseHelper().database;
     try {
       return await db.delete(
-        'users',
+        'carUsers',
         where: 'id = ?',
         whereArgs: [id],
       );

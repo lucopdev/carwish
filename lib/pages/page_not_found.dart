@@ -1,8 +1,8 @@
 import 'package:cars/widget/app_bar_custom.dart';
 import 'package:flutter/material.dart';
 
-class ErrorPage extends StatelessWidget {
-  const ErrorPage({super.key});
+class PageNotFound extends StatelessWidget {
+  const PageNotFound({super.key});
 
   @override
   Widget build(BuildContext context) {

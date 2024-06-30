@@ -19,13 +19,25 @@ class DatabaseHelper {
     return await openDatabase(dbPath, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
-        CREATE TABLE users(
+        CREATE TABLE carUsers(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name VARCHAR(50),
           phone VARCHAR(11),
-          email VARCHAR(50)
+          email VARCHAR(50),
+          carId INTEGER
         )
       ''');
     });
+  }
+
+  Future<void> resetDatabase() async {
+    final documentsDirectory = await getApplicationDocumentsDirectory();
+    final dbPath = p.join(documentsDirectory.path, _dbName);
+
+    await deleteDatabase(dbPath);
+
+    // Recria o banco de dados
+    _database = await initDatabase();
+    print('Banco de dados resetado');
   }
 }

@@ -1,12 +1,16 @@
 import 'package:cars/common/app_routes.dart';
 import 'package:cars/common/my_colors.dart';
+import 'package:cars/common/task_manager.dart';
 import 'package:cars/pages/about_us_page.dart';
 import 'package:cars/pages/car_detail_page.dart';
 import 'package:cars/pages/carlist_overview_page.dart';
 import 'package:cars/pages/dev_control_page.dart';
+import 'package:cars/pages/page_not_found.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  schedulePeriodicTask();
   runApp(const MyApp());
 }
 
@@ -83,7 +87,7 @@ class MyApp extends StatelessWidget {
       },
       onUnknownRoute: (routeSettings) {
         return MaterialPageRoute(
-          builder: (ctx) => const CarListOverviewPage(),
+          builder: (ctx) => const PageNotFound(),
         );
       },
       debugShowCheckedModeBanner: false,

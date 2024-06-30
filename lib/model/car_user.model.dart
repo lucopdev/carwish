@@ -1,43 +1,49 @@
-class User {
+class CarUser {
   int? id;
   String name;
   String email;
   String phone;
+  int carId;
 
-  User({
+  CarUser({
     this.id,
     required this.name,
     required this.email,
     required this.phone,
+    required this.carId,
   });
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory CarUser.fromMap(Map<String, dynamic> map) {
+    return CarUser(
       id: map['id'],
       name: map['name'],
       email: map['email'],
       phone: map['phone'],
+      carId: map['carId'],
     );
   }
+
   Map<String, dynamic> toMap() {
     var map = <String, dynamic>{
       'name': name,
       'email': email,
       'phone': phone,
+      'carId': carId,
     };
-    if (id != null) {
+    if (id != 0) {
       map['id'] = id;
     }
 
     return map;
   }
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory CarUser.fromJson(Map<String, dynamic> json) {
+    return CarUser(
       id: json['id'],
       name: json['name'],
       email: json['email'],
       phone: json['phone'],
+      carId: json['carId'],
     );
   }
 
@@ -46,7 +52,8 @@ class User {
     data['name'] = name;
     data['email'] = email;
     data['phone'] = phone;
-    if (id != null) {
+    data['carId'] = carId;
+    if (id != 0) {
       data['id'] = id;
     }
     return data;
@@ -54,6 +61,6 @@ class User {
 
   @override
   String toString() {
-    return '{id: $id, name: $name, email: $email, phone: $phone}';
+    return '{id: $id, name: $name, email: $email, phone: $phone, carId: $carId}';
   }
 }

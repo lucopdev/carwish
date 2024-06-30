@@ -5,7 +5,6 @@ import 'package:cars/services/car_service.dart';
 import 'package:cars/widget/app_drawer.dart';
 import 'package:cars/widget/car_list_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:cars/controller/testdatabase.dart';
 
 class CarListOverviewPage extends StatefulWidget {
   const CarListOverviewPage({super.key});
@@ -20,7 +19,6 @@ class _CarListOverviewPageState extends State<CarListOverviewPage> {
   @override
   void initState() {
     super.initState();
-    printDatabasePath();
     loadData();
   }
 
