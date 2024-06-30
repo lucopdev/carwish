@@ -1,11 +1,13 @@
 import 'package:cars/common/app_routes.dart';
 import 'package:cars/common/my_colors.dart';
 import 'package:cars/common/task_manager.dart';
+import 'package:cars/model/car.model.dart';
 import 'package:cars/pages/about_us_page.dart';
 import 'package:cars/pages/car_detail_page.dart';
 import 'package:cars/pages/carlist_overview_page.dart';
 import 'package:cars/pages/dev_control_page.dart';
 import 'package:cars/pages/page_not_found.dart';
+import 'package:cars/services/car.service.dart';
 import 'package:flutter/material.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -18,8 +20,35 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Car> _cars = [];
+
+  @override
+  void initState() {
+    super.initState();
+    getCars();
+  }
+
+  void getCars() async {
+    try {
+      var cars = await fetchCars();
+      setState(() {
+        _cars = cars;
+      });
+    } catch (e) {
+      setState(() {
+        _cars = [];
+      });
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,9 +111,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const CarListOverviewPage(),
+      home: CarListOverviewPage(cars: _cars),
       routes: {
-        AppRoutes.HOME: (ctx) => const CarListOverviewPage(),
+        AppRoutes.HOME: (ctx) => CarListOverviewPage(cars: _cars),
         AppRoutes.CAR_DETAIL: (ctx) => const CarDetailPage(),
         AppRoutes.ABOUT: (ctx) => const AboutUsPage(),
         AppRoutes.DEV_AREA: (ctx) => const DevControlPage(),

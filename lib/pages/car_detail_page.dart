@@ -1,4 +1,5 @@
 import 'package:cars/model/car.model.dart';
+import 'package:cars/model/favorite.model.dart';
 import 'package:cars/widget/app_bar_custom.dart';
 import 'package:cars/widget/car_detail_image.dart';
 import 'package:cars/widget/car_detail_panel.dart';

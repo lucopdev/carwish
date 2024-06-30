@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cars/common/my_colors.dart';
 import 'package:cars/common/task_manager.dart';
 import 'package:cars/model/car.model.dart';
-import 'package:cars/services/car.service.dart';
 import 'package:cars/widget/app_drawer.dart';
 import 'package:cars/widget/car_list_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,33 +9,19 @@ import 'package:flutter/material.dart';
 @pragma(
     'vm:entry-point') // Mandatory if the App is obfuscated or using Flutter 3.1+
 class CarListOverviewPage extends StatefulWidget {
-  const CarListOverviewPage({super.key});
+  final List<Car> cars;
+
+  const CarListOverviewPage({required this.cars, super.key});
 
   @override
   State<CarListOverviewPage> createState() => _CarListOverviewPageState();
 }
 
 class _CarListOverviewPageState extends State<CarListOverviewPage> {
-  List<Car> _cars = [];
-
   @override
   void initState() {
     super.initState();
     schedulePeriodicTask();
-    loadData();
-  }
-
-  Future<void> loadData() async {
-    try {
-      final cars = await fetchCars();
-      setState(() {
-        _cars = cars;
-      });
-    } catch (e) {
-      setState(() {
-        _cars = [];
-      });
-    }
   }
 
   @override
@@ -87,20 +72,20 @@ class _CarListOverviewPageState extends State<CarListOverviewPage> {
               ),
             ),
           ),
-          _cars.isEmpty
+          widget.cars.isEmpty
               ? const SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
                 )
-              : CarListWidget(cars: _cars),
-          _cars.isEmpty
+              : CarListWidget(cars: widget.cars),
+          widget.cars.isEmpty
               ? const SliverFillRemaining(
                   child: Center(
                     child: CircularProgressIndicator(),
                   ),
                 )
-              : CarListWidget(cars: _cars),
+              : CarListWidget(cars: widget.cars),
         ],
       ),
     );

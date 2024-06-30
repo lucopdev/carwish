@@ -47,18 +47,6 @@ class AppDrawer extends StatelessWidget {
                 height: 20,
               ),
               ListTile(
-                leading: const Icon(Icons.library_add_check_rounded),
-                title: Text('Carros que você gostou',
-                    style: Theme.of(context).textTheme.headlineMedium),
-                onTap: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(AppRoutes.FAVOURITES);
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListTile(
                 leading: const Icon(Icons.info_outline_rounded),
                 title: Text(
                   'Sobre nós',
