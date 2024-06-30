@@ -2,8 +2,8 @@ import 'package:cars/model/car.model.dart';
 import 'package:flutter/material.dart';
 
 class CarDetailPanel extends StatelessWidget {
-  Car car;
-  CarDetailPanel({required this.car, super.key});
+  final Car car;
+  const CarDetailPanel({required this.car, super.key});
 
   @override
   Widget build(BuildContext context) {
