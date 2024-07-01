@@ -29,7 +29,6 @@ O app conta com uma área de desenvolvimento para testes de funcionalidades e ma
 - **Tela Inicial**: Exibe uma lista de carros obtidos de um endpoint de API. Os carros são exibidos em uma lista rolável.
 - **Página de Detalhes do Carro**: Ao clicar em um carro, você é direcionado para uma página com os detalhes do carro e um formulário para expressar interesse.
 - **Formulário de Interesse**: Permite ao usuário preencher dados (nome, telefone e e-mail) para demonstrar interesse em um carro. O botão de envio só é ativado quando todos os campos são preenchidos corretamente.
-- **Área de Desenvolvimento**: Seção acessível para teste de envio de dados, gerenciamento de leads, e reset do banco de dados.
 - **Menu Lateral**: Inclui opções para navegar entre a tela inicial, a página sobre nós e a área de desenvolvimento.
 
 ## Como Usar
@@ -133,7 +132,7 @@ O app conta com uma área de desenvolvimento para testes de funcionalidades e ma
 
 <img src="assets/images/project/008.jpeg" alt="Tela inicial" width="100" height="200">
 
-- **Área de Desenvolvimento:** Teste funcionalidades e gerencie o banco de dados.
+- **Área de Desenvolvimento:** Para desenvolvedores testarem as funcionalidades e gerenciar o banco de dados (Habilitar isDev = true).
 
 <img src="assets/images/project/007.jpeg" alt="Tela inicial" width="100" height="200">
 

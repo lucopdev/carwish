@@ -7,6 +7,8 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDev = false;
+
     return Drawer(
         backgroundColor: MyColors.textTheme,
         surfaceTintColor: MyColors.textTheme,
@@ -57,15 +59,16 @@ class AppDrawer extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ListTile(
-                leading: const Icon(Icons.developer_board),
-                title: Text(
-                  'DEV AREA',
-                  style: Theme.of(context).textTheme.headlineMedium,
+              if (isDev)
+                ListTile(
+                  leading: const Icon(Icons.developer_board),
+                  title: Text(
+                    'DEV AREA',
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(AppRoutes.DEV_AREA),
                 ),
-                onTap: () =>
-                    Navigator.of(context).pushNamed(AppRoutes.DEV_AREA),
-              ),
             ],
           ),
         ));
