@@ -132,7 +132,7 @@ O app conta com uma área de desenvolvimento para testes de funcionalidades e ma
 
 <img src="assets/images/project/008.jpeg" alt="Tela inicial" width="100" height="200">
 
-- **Área de Desenvolvimento:** Para desenvolvedores testarem as funcionalidades e gerenciar o banco de dados (Habilitar isDev = true).
+- **Área de Desenvolvimento:** Para desenvolvedores testarem as funcionalidades e gerenciar o banco de dados (Habilitar isDev = true no widget AppDrawer).
 
 <img src="assets/images/project/007.jpeg" alt="Tela inicial" width="100" height="200">
 
