@@ -63,7 +63,7 @@ class _DevControlPageState extends State<DevControlPage> {
   }
 
   Future<Map<String, dynamic>> _postData() async {
-    // const url = 'https://www.wswork.com.br/cars/leads/';
+    // const url = 'https://www.wswork.com.br/cars/leads';
     const url = 'http://10.0.0.106:50000/lucopdev/api';
 
     const headers = {

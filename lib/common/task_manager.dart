@@ -31,8 +31,8 @@ void callbackDispatcher() {
 }
 
 Future<Map<String, dynamic>> postData() async {
-  // const url = 'https://www.wswork.com.br/cars/leads/';
-  const url = 'http://10.0.0.106:50000/lucopdev/api';
+  const url = 'https://www.wswork.com.br/cars/leads';
+  // const url = 'http://10.0.0.106:50000/lucopdev/api';
   const headers = {
     'Content-Type': 'application/json; charset=UTF-8',
     'Accept': 'application/json',
@@ -47,6 +47,7 @@ Future<Map<String, dynamic>> postData() async {
       headers: headers,
       body: jsonEncode({'users': users.map((user) => user.toJson()).toList()}),
     );
+    print(response.body);
 
     if (response.statusCode == 200) {
       return {
