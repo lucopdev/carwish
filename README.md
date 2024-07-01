@@ -2,9 +2,10 @@
 
 **CarWish** é um aplicativo desenvolvido para listar carros, mostrar detalhes sobre cada carro e permitir que os usuários se manifestem se estiverem interessados em um carro específico. O aplicativo também possui uma área temporária de desenvolvimento para testes de funcionalidades e manutenção do banco de dados.
 
+<div style="display: flex; flex-direction: column;">
 DOWNLOAD DA BUILD: [app-arm64-v8a-release.apk](https://files.fm/u/6xs9hyx8wg)
-DOWNLOAD DA BUILD: [Download](https://files.fm/u/vx6zqjvnad)
-Relatório técnico:
+Relatório técnico: [Download](https://files.fm/u/vx6zqjvnad)
+</div>
 
 ## Tabelas de Conteúdo
 
