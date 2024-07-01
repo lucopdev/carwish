@@ -4,7 +4,7 @@
 
 <div style="display: flex; flex-direction: column;">
   <p>DOWNLOAD DA BUILD DE DESENVOLVIMENTO: <a href="https://files.fm/u/6xs9hyx8wg" target="_blank">app-arm64-v8a-release.apk</a></p>
-  <p>Relatório técnico: <a href="https://files.fm/u/vx6zqjvnad" target="_blank">Download</a></p>
+  <p>Relatório técnico: <a href="https://files.fm/u/nvebjvh4vt" target="_blank">Download</a></p>
 </div>
 
 ## Tabelas de Conteúdo
