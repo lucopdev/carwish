@@ -47,7 +47,6 @@ Future<Map<String, dynamic>> postData() async {
       headers: headers,
       body: jsonEncode({'users': users.map((user) => user.toJson()).toList()}),
     );
-    print(response.body);
 
     if (response.statusCode == 200) {
       return {
@@ -61,6 +60,7 @@ Future<Map<String, dynamic>> postData() async {
         var redirectResponse =
             await http.get(Uri.parse(response.headers['location']!));
 
+        print(redirectResponse.body);
         return {
           'message': 'SUCCESS',
           'code': redirectResponse.statusCode,

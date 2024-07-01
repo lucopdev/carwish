@@ -81,8 +81,6 @@ class _DevControlPageState extends State<DevControlPage> {
             {'users': caruser.map((user) => user.toJson()).toList()}),
       );
 
-      print(response.body);
-
       if (response.statusCode == 200) {
         return {
           'message': 'SUCCESS',
@@ -94,6 +92,7 @@ class _DevControlPageState extends State<DevControlPage> {
             (response.statusCode == 301 || response.statusCode == 302)) {
           var redirectResponse =
               await http.get(Uri.parse(response.headers['location']!));
+          print(redirectResponse.body);
 
           return {
             'message': 'SUCCESS',
