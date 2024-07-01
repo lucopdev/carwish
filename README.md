@@ -4,7 +4,8 @@
 
 DOWNLOAD DA BUILD: [app-arm64-v8a-release.apk](https://files.fm/u/6xs9hyx8wg)
 DOWNLOAD DA BUILD: [Download](https://files.fm/u/vx6zqjvnad)
-Relatório técnico: 
+Relatório técnico:
+
 ## Tabelas de Conteúdo
 
 - [Sobre o Projeto](#sobre-o-projeto)
@@ -116,10 +117,12 @@ O app conta com uma área de desenvolvimento para testes de funcionalidades e ma
 
 - **Página de Detalhes do Carro:** Mostra informações detalhadas sobre o carro e um formulário para demonstrar interesse.
 
-<img src="assets/images/project/005.jpeg" alt="Tela inicial" width="100" height="200">
-<img src="assets/images/project/002.jpeg" alt="Tela inicial" width="100" height="200">
-<img src="assets/images/project/003.jpeg" alt="Tela inicial" width="100" height="200">
-<img src="assets/images/project/004.jpeg" alt="Tela inicial" width="100" height="200">
+<div style="display: flex; flex-direction: row;">
+  <img src="assets/images/project/005.jpeg" alt="Tela inicial" width="100" height="200">
+  <img src="assets/images/project/002.jpeg" alt="Tela inicial" width="100" height="200">
+  <img src="assets/images/project/003.jpeg" alt="Tela inicial" width="100" height="200">
+  <img src="assets/images/project/004.jpeg" alt="Tela inicial" width="100" height="200">
+</div>
 
 - **Menu Lateral:** Navegue entre as páginas "Início", "Sobre Nós" e "Dev Area".
 
