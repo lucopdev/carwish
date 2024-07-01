@@ -1,11 +1,11 @@
 class User {
-  int? id;
-  String name;
-  String email;
-  String phone;
+  final int id;
+  final String name;
+  final String email;
+  final String phone;
 
   User({
-    this.id,
+    required this.id,
     required this.name,
     required this.email,
     required this.phone,
@@ -13,43 +13,38 @@ class User {
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
-      id: map['id'],
-      name: map['name'],
-      email: map['email'],
-      phone: map['phone'],
+      id: map['id'] as int,
+      name: map['name'] as String,
+      email: map['email'] as String,
+      phone: map['phone'] as String,
     );
   }
+
   Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
+    return {
+      'id': id,
       'name': name,
       'email': email,
       'phone': phone,
     };
-    if (id != null) {
-      map['id'] = id;
-    }
-
-    return map;
   }
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
+      id: json['id'] as int,
+      name: json['name'] as String,
+      email: json['email'] as String,
+      phone: json['phone'] as String,
     );
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['email'] = email;
-    data['phone'] = phone;
-    if (id != null) {
-      data['id'] = id;
-    }
-    return data;
+    return {
+      'id': id,
+      'name': name,
+      'email': email,
+      'phone': phone,
+    };
   }
 
   @override

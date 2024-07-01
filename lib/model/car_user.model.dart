@@ -1,66 +1,67 @@
+import 'package:cars/model/car.model.dart';
+import 'package:cars/model/user.model.dart';
+
 class CarUser {
-  int? id;
-  String name;
-  String email;
-  String phone;
-  int carId;
+  final int id;
+  final int timestampCadastro;
+  final User user;
+  final Car car;
 
   CarUser({
-    this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.carId,
+    required this.id,
+    required this.timestampCadastro,
+    required this.user,
+    required this.car,
   });
-
-  factory CarUser.fromMap(Map<String, dynamic> map) {
-    return CarUser(
-      id: map['id'],
-      name: map['name'],
-      email: map['email'],
-      phone: map['phone'],
-      carId: map['carId'],
-    );
-  }
-
-  Map<String, dynamic> toMap() {
-    var map = <String, dynamic>{
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'carId': carId,
-    };
-    if (id != 0) {
-      map['id'] = id;
-    }
-
-    return map;
-  }
 
   factory CarUser.fromJson(Map<String, dynamic> json) {
     return CarUser(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      phone: json['phone'],
-      carId: json['carId'],
+      id: json['id'] as int,
+      timestampCadastro: json['timestampCadastro'] as int,
+      user: User.fromJson({
+        'id': json['userId'] as int,
+        'name': json['userName'] as String,
+        'phone': json['userPhone'] as String,
+        'email': json['userEmail'] as String,
+      }),
+      car: Car.fromJson(json['car']),
     );
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['email'] = email;
-    data['phone'] = phone;
-    data['carId'] = carId;
-    if (id != 0) {
-      data['id'] = id;
-    }
-    return data;
+    return {
+      'id': id,
+      'timestampCadastro': timestampCadastro,
+      'userId': user.id,
+      'userName': user.name,
+      'userPhone': user.phone,
+      'userEmail': user.email,
+      'car': car.toJson(),
+    };
   }
 
-  @override
-  String toString() {
-    return '{id: $id, name: $name, email: $email, phone: $phone, carId: $carId}';
+  factory CarUser.fromMap(Map<String, dynamic> map) {
+    return CarUser(
+      id: map['id'] as int,
+      timestampCadastro: map['timestampCadastro'] as int,
+      user: User(
+        id: map['userId'] as int,
+        name: map['userName'] as String,
+        phone: map['userPhone'] as String,
+        email: map['userEmail'] as String,
+      ),
+      car: Car.fromMap(map['car'] as Map<String, dynamic>),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'timestampCadastro': timestampCadastro,
+      'userName': user.name,
+      'userPhone': user.phone,
+      'userEmail': user.email,
+      'carId': car.id,
+    };
   }
 }

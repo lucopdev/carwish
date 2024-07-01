@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p; // Importando 'path' com o prefixo 'p'
+import 'package:path/path.dart' as p;
 
 class DatabaseHelper {
   static Database? _database;
@@ -19,12 +19,39 @@ class DatabaseHelper {
     return await openDatabase(dbPath, version: 1,
         onCreate: (Database db, int version) async {
       await db.execute('''
-        CREATE TABLE carUsers(
+        CREATE TABLE cars (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name VARCHAR(50),
-          phone VARCHAR(11),
-          email VARCHAR(50),
-          carId INTEGER
+          timestamp_cadastro INTEGER,
+          modelo_id INTEGER,
+          ano INTEGER,
+          combustivel TEXT,
+          num_portas INTEGER,
+          cor TEXT,
+          nome_modelo TEXT,
+          valor REAL
+        )
+      ''');
+
+      await db.execute('''
+        CREATE TABLE users (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          phone TEXT,
+          email TEXT
+        )
+      ''');
+
+      await db.execute('''
+        CREATE TABLE carUsers (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          timestampCadastro INTEGER,
+          userId INTEGER,
+          userName TEXT,
+          userPhone TEXT,
+          userEmail TEXT,
+          carId INTEGER,
+          FOREIGN KEY(carId) REFERENCES cars(id),
+          FOREIGN KEY(userId) REFERENCES users(id)
         )
       ''');
     });

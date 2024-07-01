@@ -4,6 +4,7 @@ import 'package:cars/common/app_routes.dart';
 import 'package:cars/common/my_colors.dart';
 import 'package:cars/model/car.model.dart';
 import 'package:cars/model/car_user.model.dart';
+import 'package:cars/model/user.model.dart';
 import 'package:cars/services/car_user.service.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:cars/common/get_input_decoration.dart';
@@ -55,25 +56,42 @@ class _PurchaseFormState extends State<PurchaseForm> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       print('Formulário válido');
-      CarUserService().insertCarUser(
+
+      // Gerar IDs manualmente usando timestamp atual
+      final userId = DateTime.now()
+          .millisecondsSinceEpoch; // ID único baseado no timestamp atual
+      final carUserId = DateTime.now()
+          .microsecondsSinceEpoch; // ID único baseado no timestamp atual
+
+      CarUserService()
+          .insertCarUser(
         CarUser(
-          name: _nameController.text,
-          email: _emailController.text,
-          phone: _phoneController.text,
-          carId: widget.car.id,
+          id: carUserId, // Gerar ID único para CarUser
+          timestampCadastro: DateTime.now().millisecondsSinceEpoch,
+          user: User(
+            id: userId, // Atribuir ID gerado ao usuário
+            name: _nameController.text,
+            phone: _phoneController.text,
+            email: _emailController.text,
+          ),
+          car: widget.car,
         ),
-      );
-      setState(() {
-        _isLoading = true;
-        _isFormSubmited = true;
-      });
-      Timer(const Duration(seconds: 3), () {
-        _nameController.clear();
-        _phoneController.clear();
-        _emailController.clear();
+      )
+          .then((_) {
         setState(() {
-          _isLoading = false;
+          _isLoading = true;
+          _isFormSubmited = true;
         });
+        Timer(const Duration(seconds: 3), () {
+          _nameController.clear();
+          _phoneController.clear();
+          _emailController.clear();
+          setState(() {
+            _isLoading = false;
+          });
+        });
+      }).catchError((e) {
+        print('Erro ao submeter formulário: $e');
       });
     } else {
       print('Formulário inválido');

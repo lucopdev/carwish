@@ -17,7 +17,7 @@ void scheduleOneOffTask() {
   Workmanager().registerOneOffTask(
     'taskTwo',
     'postDataTask',
-    initialDelay: const Duration(seconds: 10),
+    initialDelay: const Duration(seconds: 5),
   );
 }
 
@@ -25,35 +25,48 @@ void scheduleOneOffTask() {
 void callbackDispatcher() {
   Workmanager().executeTask((postDataTask, inputData) async {
     print('Posting data... >>>>>>>>>>>>>>>>>>>>>>>>>>>');
-    return await postData().then((value) => value['body']);
+    await postData();
+    return Future.value(true);
   });
 }
 
 Future<Map<String, dynamic>> postData() async {
-  const url = 'https://www.wswork.com.br/cars/leads/';
+  // const url = 'https://www.wswork.com.br/cars/leads/';
+  const url = 'http://10.0.0.106:50000/lucopdev/api';
+  const headers = {
+    'Content-Type': 'application/json; charset=UTF-8',
+    'Accept': 'application/json',
+  };
 
+  print(url);
   try {
     final users = await CarUserService().getCarUsers();
+
     final response = await http.post(
       Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
+      headers: headers,
       body: jsonEncode({'users': users.map((user) => user.toJson()).toList()}),
     );
 
     if (response.statusCode == 200) {
-      print('POST request successful');
-      print('Response body: ${response.body}');
       return {
         'message': 'SUCCESS',
         'code': response.statusCode,
         'body': response.body
       };
     } else {
-      print('Failed to post data: ${response.statusCode}');
-      print('Response body: ${response.body}');
+      if (response.headers.containsKey('location') &&
+          (response.statusCode == 301 || response.statusCode == 302)) {
+        var redirectResponse =
+            await http.get(Uri.parse(response.headers['location']!));
+
+        return {
+          'message': 'SUCCESS',
+          'code': redirectResponse.statusCode,
+          'body': redirectResponse.body,
+        };
+      }
+
       return {
         'message': 'FAILED',
         'code': response.statusCode,
@@ -61,7 +74,6 @@ Future<Map<String, dynamic>> postData() async {
       };
     }
   } catch (e) {
-    print('Error: $e');
     return {'message': 'FAILED', 'code': 500, 'body': e.toString()};
   }
 }

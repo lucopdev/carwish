@@ -20,13 +20,13 @@ class DevControlPage extends StatefulWidget {
 
 class _DevControlPageState extends State<DevControlPage> {
   final _idController = TextEditingController();
-  List<CarUser> users = [];
+  List<CarUser> carusers = [];
 
   void _showData() async {
     try {
       final List<CarUser> data = await CarUserService().getCarUsers();
       setState(() {
-        users = data;
+        carusers = data;
       });
     } catch (e) {
       print('Erro ao obter usuários: $e');
@@ -58,35 +58,108 @@ class _DevControlPageState extends State<DevControlPage> {
   Future<void> _resetDatabase() async {
     await DatabaseHelper().resetDatabase();
     setState(() {
-      users = [];
+      carusers = [];
     });
   }
 
-  Future<void> _postData() async {
-    const url = 'https://www.wswork.com.br/cars/leads/';
+  Future<Map<String, dynamic>> _postData() async {
+    // const url = 'https://www.wswork.com.br/cars/leads/';
+    const url = 'http://10.0.0.106:50000/lucopdev/api';
+
+    const headers = {
+      'Content-Type': 'application/json; charset=UTF-8',
+      'Accept': 'application/json',
+    };
 
     try {
-      final users = await CarUserService().getCarUsers();
+      final caruser = await CarUserService().getCarUsers();
+
       final response = await http.post(
         Uri.parse(url),
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body:
-            jsonEncode({'users': users.map((user) => user.toJson()).toList()}),
+        headers: headers,
+        body: jsonEncode(
+            {'users': caruser.map((user) => user.toJson()).toList()}),
       );
 
+      print(response.body);
+
       if (response.statusCode == 200) {
-        print('POST request successful');
+        return {
+          'message': 'SUCCESS',
+          'code': response.statusCode,
+          'body': response.body
+        };
       } else {
-        print('Failed to post data: ${response.statusCode}');
-        print('Response body: ${response.body}');
+        if (response.headers.containsKey('location') &&
+            (response.statusCode == 301 || response.statusCode == 302)) {
+          var redirectResponse =
+              await http.get(Uri.parse(response.headers['location']!));
+
+          return {
+            'message': 'SUCCESS',
+            'code': redirectResponse.statusCode,
+            'body': redirectResponse.body,
+          };
+        }
+
+        return {
+          'message': 'FAILED',
+          'code': response.statusCode,
+          'body': response.body
+        };
       }
     } catch (e) {
-      print('Error: $e');
+      return {'message': 'FAILED', 'code': 500, 'body': e.toString()};
     }
   }
+
+  // Future<Map<String, dynamic>> _postData() async {
+  //   const url = 'https://www.wswork.com.br/cars/leads/';
+  //   const headers = {
+  //     'Content-Type': 'application/json; charset=UTF-8',
+  //     'Accept': 'application/json',
+  //   };
+
+  //   try {
+  //     final users = await CarUserService().getCarUsers();
+  //     var parameters = {'user': users.map((user) => user.toJson()).toList()};
+
+  //     final response = await http.get(
+  //       Uri.parse('$url?user=${Uri.encodeComponent(jsonEncode(parameters))}'),
+  //       headers: headers,
+  //       // body:
+  //       //     jsonEncode({'users': users.map((user) => user.toJson()).toList()}),
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       return {
+  //         'message': 'SUCCESS',
+  //         'code': response.statusCode,
+  //         'body': response.body
+  //       };
+  //     } else {
+  //       if (response.headers.containsKey('location') &&
+  //           (response.statusCode == 301 || response.statusCode == 302)) {
+  //         var redirectResponse =
+  //             await http.get(Uri.parse(response.headers['location']!));
+
+  //         return {
+  //           'message': 'SUCCESS',
+  //           'code': redirectResponse.statusCode,
+  //           'body': redirectResponse.body,
+  //         };
+  //       }
+
+  //       return {
+  //         'message': 'FAILED',
+  //         'code': response.statusCode,
+  //         'body': response.body
+  //       };
+  //     }
+  //   } catch (e) {
+  //     return {'message': 'FAILED', 'code': 500, 'body': e.toString()};
+  //   }
+  // }
 
   void _runTask() {
     scheduleOneOffTask();
@@ -260,9 +333,9 @@ class _DevControlPageState extends State<DevControlPage> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: users.length,
+                    itemCount: carusers.length,
                     itemBuilder: (context, index) {
-                      final user = users[index];
+                      final caruser = carusers[index];
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Container(
@@ -272,18 +345,68 @@ class _DevControlPageState extends State<DevControlPage> {
                               width: 1,
                             ),
                           ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.all(10),
-                            title: Text(user.name),
-                            leading: Text(user.id.toString(),
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium),
-                            subtitle: Text(user.email),
-                            trailing: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          child: Container(
+                            child: Column(
                               children: [
-                                Text(user.phone),
-                                Text('Carro: ${user.carId.toString()}'),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'ID:',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineMedium,
+                                    ),
+                                    Text(
+                                      caruser.id.toString(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ),
+                                  ],
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    caruser.car.nomeModelo,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  subtitle: Text(
+                                    caruser.car.cor,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  trailing: Text(
+                                    caruser.car.ano.toString(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    caruser.user.name,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  subtitle: Text(
+                                    caruser.user.email,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    caruser.user.phone,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
