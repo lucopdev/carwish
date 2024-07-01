@@ -2,6 +2,9 @@
 
 **CarWish** é um aplicativo desenvolvido para listar carros, mostrar detalhes sobre cada carro e permitir que os usuários se manifestem se estiverem interessados em um carro específico. O aplicativo também possui uma área temporária de desenvolvimento para testes de funcionalidades e manutenção do banco de dados.
 
+DOWNLOAD DA BUILD: [app-arm64-v8a-release.apk](https://files.fm/u/6xs9hyx8wg)
+DOWNLOAD DA BUILD: [Download](https://files.fm/u/vx6zqjvnad)
+Relatório técnico: 
 ## Tabelas de Conteúdo
 
 - [Sobre o Projeto](#sobre-o-projeto)
@@ -109,26 +112,26 @@ O app conta com uma área de desenvolvimento para testes de funcionalidades e ma
 
 - **Tela Inicial:** Apresenta a lista de carros.
 
- <img src="assets/images/project/001.jpeg" alt="Tela inicial" width="150" height="250">
+ <img src="assets/images/project/001.jpeg" alt="Tela inicial" width="100" height="200">
 
 - **Página de Detalhes do Carro:** Mostra informações detalhadas sobre o carro e um formulário para demonstrar interesse.
 
-<img src="assets/images/project/005.jpeg" alt="Tela inicial" width="150" height="250">
-<img src="assets/images/project/002.jpeg" alt="Tela inicial" width="150" height="250">
-<img src="assets/images/project/003.jpeg" alt="Tela inicial" width="150" height="250">
-<img src="assets/images/project/004.jpeg" alt="Tela inicial" width="150" height="250">
+<img src="assets/images/project/005.jpeg" alt="Tela inicial" width="100" height="200">
+<img src="assets/images/project/002.jpeg" alt="Tela inicial" width="100" height="200">
+<img src="assets/images/project/003.jpeg" alt="Tela inicial" width="100" height="200">
+<img src="assets/images/project/004.jpeg" alt="Tela inicial" width="100" height="200">
 
 - **Menu Lateral:** Navegue entre as páginas "Início", "Sobre Nós" e "Dev Area".
 
-<img src="assets/images/project/006.jpeg" alt="Tela inicial" width="150" height="250">
+<img src="assets/images/project/006.jpeg" alt="Tela inicial" width="100" height="200">
 
 - **Pagina Sobre Nós** Esta página fornece informações sobre a equipe de desenvolvimento e a visão do projeto..
 
-<img src="assets/images/project/008.jpeg" alt="Tela inicial" width="150" height="250">
+<img src="assets/images/project/008.jpeg" alt="Tela inicial" width="100" height="200">
 
 - **Área de Desenvolvimento:** Teste funcionalidades e gerencie o banco de dados.
 
-<img src="assets/images/project/007.jpeg" alt="Tela inicial" width="150" height="250">
+<img src="assets/images/project/007.jpeg" alt="Tela inicial" width="100" height="200">
 
 ## Configuração do Ambiente
 
