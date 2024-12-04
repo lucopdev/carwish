@@ -9,6 +9,10 @@ void schedulePeriodicTask() {
     'taskOne',
     'postDataTask',
     frequency: const Duration(days: 5),
+    constraints: Constraints(
+      networkType: NetworkType.not_required,
+      // other constraints can be added here
+    ),
   );
 }
 
@@ -57,6 +61,7 @@ Future<Map<String, dynamic>> postData() async {
     } else {
       if (response.headers.containsKey('location') &&
           (response.statusCode == 301 || response.statusCode == 302)) {
+        print(response.body);
         var redirectResponse =
             await http.get(Uri.parse(response.headers['location']!));
 
